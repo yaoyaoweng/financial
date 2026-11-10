@@ -1,0 +1,32 @@
+出差請款 PWA 安裝說明
+====================
+
+一、放到網路上（擇一，免費）
+  A. Netlify Drop（最簡單，不用寫程式）
+     1. 用電腦打開 https://app.netlify.com/drop
+     2. 把整個「出差請款PWA」資料夾拖進去
+     3. 拿到一個網址（可在 Site settings 改成好記的名字）
+  B. GitHub Pages
+     1. 建一個 repository，把資料夾內所有檔案上傳
+     2. Settings → Pages → Branch 選 main → Save
+     3. 幾分鐘後就有網址
+
+二、加入主畫面
+  iPhone：用 Safari 打開網址 → 分享 → 加入主畫面
+  Android：用 Chrome 打開 → 選單 → 安裝應用程式／加到主畫面
+  電腦：Chrome 或 Edge 網址列右邊的「安裝」圖示
+
+三、更換 App icon
+  把 icons 資料夾裡的 5 張圖換成你自己的圖片，檔名和尺寸不變：
+    icon-192.png         192×192
+    icon-512.png         512×512
+    maskable-512.png     512×512（圖案放在中間 80% 範圍內，Android 會裁成圓形）
+    apple-touch-icon.png 180×180（iPhone 用）
+    favicon-64.png       64×64（瀏覽器分頁小圖）
+  App 名稱在 manifest.webmanifest 的 "short_name"。
+  換完重新上傳，並把 sw.js 第 2 行的 trip-claim-v1 改成下一個版本號（目前是 v2），已安裝的手機才會更新。
+  已經加到主畫面的 iPhone，要刪掉重新加入才會換到新 icon。
+
+四、注意
+  資料存在各自手機／電腦的瀏覽器裡，不會上傳到任何地方，換裝置要重新設定基本資料。
+  裝好後沒網路也能用。
