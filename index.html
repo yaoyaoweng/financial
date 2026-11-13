@@ -9,7 +9,7 @@
   --bg:#f6f2ec; --panel:#ffffff; --fg:#2b241c; --muted:#6e6356; --line:#e4dacb;
   --accent:#7a5c38; --accent-fg:#ffffff; --accent-soft:#f3ebdf;
   --warn:#9a5b00; --warn-bg:#fff3dc; --ok:#1c6b45; --ok-bg:#e3f4ea; --err:#a3221f; --err-bg:#fde8e7;
-  --gold:#c9a24b; --gold-soft:#f6ecd3; --navy1:#4b291a; --navy2:#896c49; --navy3:#a8875c;
+  --gold:#c9a24b; --gold-soft:#f6ecd3; --navy1:#4a3823; --navy2:#896c49; --navy3:#a8875c;
   --inp:#fffdf6;
   --font:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
 }
@@ -62,6 +62,18 @@ button:disabled{opacity:.5;cursor:default}
 .leg .top{display:grid;grid-template-columns:28px 150px 1fr 1fr 120px 110px 110px auto;gap:8px;align-items:end}
 .leg .idx{font-weight:700;color:var(--accent);align-self:center;text-align:center}
 .leg .sum{font-weight:700;text-align:right;align-self:center;font-variant-numeric:tabular-nums;min-width:80px}
+.modebar{display:inline-flex;align-self:flex-start}
+.modebar button{border-radius:0;padding:4px 12px;font-size:13px;background:#fff}
+.modebar button:first-child{border-radius:6px 0 0 6px}.modebar button:last-child{border-radius:0 6px 6px 0;margin-left:-1px}
+.modebar button[aria-pressed=true]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.leg.car{border-left-color:var(--accent)}
+.leg.car .top{grid-template-columns:28px 150px 1.4fr 1.4fr 110px 110px 110px auto}
+.carbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btnlink{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:var(--accent);background:#fff;border:1px solid var(--line);border-radius:6px;padding:6px 12px;text-decoration:none;cursor:pointer}
+.btnlink:hover{border-color:var(--accent)}
+.btnlink.up{background:var(--gold-soft);border-color:var(--gold)}
+.thumbwrap{display:inline-flex;align-items:center;gap:6px}
+.thumb{height:44px;border-radius:4px;border:1px solid var(--line)}
 .leg .more{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
 .leg .memo{grid-column:1/-1}
 .leg details summary{cursor:pointer;font-size:13px;color:var(--accent);list-style:none;display:inline-block}
@@ -72,7 +84,8 @@ button:disabled{opacity:.5;cursor:default}
 .hint{font-size:12px;color:var(--muted);margin-top:2px;min-height:1em}
 .hint.warn{color:var(--warn)}
 @media (max-width:860px){
-  .leg .top{grid-template-columns:1fr 1fr;}
+  .leg .top,.leg.car .top{grid-template-columns:1fr 1fr;}
+  .leg .wide2{grid-column:1/-1}
   .leg .idx{grid-column:1/-1;text-align:left}
   .leg .sum{grid-column:1/-1}
   .leg .tools{grid-column:1/-1;justify-content:flex-end}
@@ -150,6 +163,8 @@ details.settings[open]>summary{margin-bottom:14px}
     <div><label for="t_date">申請日期</label><input type="date" id="t_date"></div>
     <div class="wide"><label for="t_reason">出差事由 <span class="req">*</span></label><input type="text" id="t_reason" placeholder="例：主管會議、表揚大會"></div>
     <div class="wide"><label for="t_place">出差地點 <span class="req">*</span></label><input type="text" id="t_place" placeholder="例：台北遠雄大樓"></div>
+    <div><label for="t_sh">出發時間（幾點）</label><select id="t_sh"><option value="">—</option><option value="0">0 時</option><option value="1">1 時</option><option value="2">2 時</option><option value="3">3 時</option><option value="4">4 時</option><option value="5">5 時</option><option value="6">6 時</option><option value="7">7 時</option><option value="8">8 時</option><option value="9">9 時</option><option value="10">10 時</option><option value="11">11 時</option><option value="12">12 時</option><option value="13">13 時</option><option value="14">14 時</option><option value="15">15 時</option><option value="16">16 時</option><option value="17">17 時</option><option value="18">18 時</option><option value="19">19 時</option><option value="20">20 時</option><option value="21">21 時</option><option value="22">22 時</option><option value="23">23 時</option></select></div>
+    <div><label for="t_eh">返回時間（幾點）</label><select id="t_eh"><option value="">—</option><option value="0">0 時</option><option value="1">1 時</option><option value="2">2 時</option><option value="3">3 時</option><option value="4">4 時</option><option value="5">5 時</option><option value="6">6 時</option><option value="7">7 時</option><option value="8">8 時</option><option value="9">9 時</option><option value="10">10 時</option><option value="11">11 時</option><option value="12">12 時</option><option value="13">13 時</option><option value="14">14 時</option><option value="15">15 時</option><option value="16">16 時</option><option value="17">17 時</option><option value="18">18 時</option><option value="19">19 時</option><option value="20">20 時</option><option value="21">21 時</option><option value="22">22 時</option><option value="23">23 時</option></select></div>
     <div><label for="t_adv">預支旅費</label><input type="text" inputmode="numeric" class="num" id="t_adv" placeholder="0"></div>
     <div><label for="t_cdate">請款單日期（空白＝同申請日期）</label><input type="date" id="t_cdate"></div>
     <div class="wide"><label for="t_note">報告表備註說明（選填）</label><input type="text" id="t_note"></div>
@@ -181,6 +196,7 @@ details.settings[open]>summary{margin-bottom:14px}
   <div class="tabs" role="tablist">
     <button role="tab" aria-selected="true" data-tab="rpt">出差旅費報告表</button>
     <button role="tab" aria-selected="false" data-tab="clm">請款單</button>
+    <button role="tab" aria-selected="false" data-tab="att" id="tabAtt">地圖附件</button>
   </div>
   <div class="paperwrap"><div id="preview"></div></div>
 </section>
@@ -242,12 +258,17 @@ const AMT = [["rail","火車/高鐵"],["taxi","計程車資"],["fuel","自用車
   ["hotel","住宿費"],["meal","膳雜費"],["ent","交際費"],["other","其他"]];
 const MORE = ["fuel","toll","air","tother","meal","ent","other"];
 const today = () => { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; };
-const blankLeg = () => ({d1:"",d2:"",from:"",to:"",rail:"",taxi:"",fuel:"",toll:"",air:"",tother:"",hotel:"",meal:"",ent:"",other:"",memo:""});
-const blankTrip = () => ({date:today(),reason:"",place:"",adv:"",note:"",cdate:""});
+const blankLeg = () => ({mode:"pub",d1:"",d2:"",from:"",to:"",km:"",img:null,rail:"",taxi:"",fuel:"",toll:"",air:"",tother:"",hotel:"",meal:"",ent:"",other:"",memo:""});
+const blankTrip = () => ({date:today(),reason:"",place:"",adv:"",note:"",cdate:"",sh:"",eh:""});
+const KM_RATE = 5;   // 自用汽車每公里 5 元
+const gmapURL = (a,b) => "https://www.google.com/maps/dir/?api=1&travelmode=driving&origin="+encodeURIComponent(a||"")+"&destination="+encodeURIComponent(b||"");
+const ETAG_URL = "https://www.fetc.net.tw/";
 
 let S = {settings:{...DEF_SETTINGS}, routes:DEF_ROUTES.map(r=>({...r})), trip:blankTrip(), legs:[blankLeg()], demo:false};
 try{ const s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.settings){ S={...S,...s}; S.settings={...DEF_SETTINGS,...s.settings}; } }catch(e){}
-const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} };
+let imgSaveFail=false;
+const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(S)); imgSaveFail=false; }
+  catch(e){ imgSaveFail=true; try{ localStorage.setItem(KEY, JSON.stringify({...S,legs:S.legs.map(l=>({...l,img:null}))})); }catch(e2){} } };
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
@@ -268,8 +289,10 @@ function lookupFare(from,to){
 // 計算出所有數字
 function compute(){
   const rows = S.legs.map((l,n)=>({...l,n:n+1})).filter(l => has(l.d1)||has(l.from)||has(l.to)||AMT.some(([k])=>has(l[k]))||has(l.memo)).map(l=>{
-    const auto = has(l.rail)?null:lookupFare(l.from,l.to);
+    const car = l.mode==="car";
+    const auto = (car||has(l.rail))?null:lookupFare(l.from,l.to);
     const v = {}; AMT.forEach(([k])=>v[k]=num(l[k])); if(auto!=null) v.rail=auto;
+    if(car){ v.rail=0; v.taxi=0; v.fuel=Math.round(num(l.km)*KM_RATE); }
     const total = AMT.reduce((a,[k])=>a+v[k],0);
     return {...l, v, auto, total, d2eff: has(l.d2)?l.d2:l.d1};
   });
@@ -285,7 +308,13 @@ function compute(){
   const cats = [["交通費",transport],["住宿費",S_.hotel],["膳雜費",S_.meal],["交際費",S_.ent],["其他費",S_.other]].filter(c=>c[1]>0);
   const items = cats.map(([n,a])=>({desc:`${month}月出差${n}用`,amt:a}));
   const cdate = S.trip.cdate||S.trip.date;
-  return {rows,S:S_,transport,total,adv,net:total-adv,first,last,month,items,cdate};
+  let days="", hrs="";
+  if(first&&last&&has(S.trip.sh)&&has(S.trip.eh)){
+    const H=Math.round((pd(last)-pd(first))/36e5)+Number(S.trip.eh)-Number(S.trip.sh);
+    if(H>=0){ days=Math.floor(H/24); hrs=H%24; }
+  }
+  const imgs = rows.filter(r=>r.mode==="car"&&r.img&&r.img.d);
+  return {rows,S:S_,transport,total,adv,net:total-adv,first,last,month,items,cdate,days,hrs,imgs};
 }
 // 金額大寫（沿用請款單預印格式：仟佰拾萬仟佰拾元）
 function words(n){
@@ -298,14 +327,19 @@ const roc = s => { const d=pd(s); return d?`${d.getFullYear()-1911}年 ${d.getMo
 
 /* ---------- 表格模型：同一份模型同時產生預覽 HTML 與 Word ---------- */
 // cell: {t, span, rs(往下合併列數), cont(被合併的格), al:'c'|'r'|'l', v:'t', b(粗體), sz(pt), nb(無框)}
+function memoText(r){
+  if(r.mode!=="car") return r.memo||"";
+  const k=num(r.km);
+  return ["自行開車"+(k?` ${k}km×${KM_RATE}`:"")+(r.img?"（附地圖）":""), r.memo].filter(has).join("；");
+}
 function reportModel(c){
   const st=S.settings, t=S.trip;
   const W=[9.2,9.2,8.7,10.6,11,10.7,11.3,10.7,10.7,9.6,11.3,12.4,12.4,12.4,14,35];
   const R=[]; const C=(t,o={})=>({t,...o});
   R.push({h:22,cells:[C("出差人姓名："+st.name,{span:7}),C("部門："+st.dept,{span:4}),C("職稱："+st.title,{span:3}),C("申請日期："),C(ymdC(t.date),{al:"c"})]});
   R.push({h:30,cells:[C("出差事由：\n(務必填寫)",{span:2}),C(t.reason,{span:5}),C("出差地點：\n(務必填寫)",{span:2}),C(t.place,{span:7})]});
-  R.push({h:22,cells:[C("出差日期：自",{span:2}),C(ymd(c.first),{span:3,al:"c"}),C("時",{al:"c"}),C("至",{al:"c"}),C(ymd(c.last),{span:3,al:"c"}),
-    C("時",{al:"c"}),C("共",{al:"c"}),C(""),C("日",{al:"c"}),C(""),C("時")]});
+  R.push({h:22,cells:[C("出差日期：自",{span:2}),C(ymd(c.first),{span:2,al:"c"}),C(t.sh??"",{al:"c"}),C("時",{al:"c"}),C("至",{al:"c"}),C(ymd(c.last),{span:2,al:"c"}),
+    C(t.eh??"",{al:"c"}),C("時",{al:"c"}),C("共",{al:"c"}),C(String(c.days),{al:"c"}),C("日",{al:"c"}),C(String(c.hrs),{al:"c"}),C("時")]});
   const vh = ["住宿費","膳雜费","交際費","其他","合計","工作摘要及說明"];
   R.push({h:20,cells:[C("出差日期",{span:2,al:"c"}),C("地點",{span:2,al:"c"}),C("交通費",{span:6,al:"c"}),...vh.map(x=>C(x,{rs:2,al:"c"}))]});
   R.push({h:20,cells:[...["起","迄","起","迄","火車/高鐵","計程車資","自用車-油","自用車-通行","飛機","其他"].map(x=>C(x,{al:"c"})),...vh.map(()=>C("",{cont:true}))]});
@@ -314,7 +348,7 @@ function reportModel(c){
     const r=c.rows[i];
     if(!r){ R.push({h:24,cells:W.map(()=>C(""))}); continue; }
     R.push({h:24,cells:[C(md(r.d1),{al:"c"}),C(md(r.d2eff),{al:"c"}),C(r.from,{al:"c"}),C(r.to,{al:"c"}),
-      ...AMT.map(([k])=>C(fmt(r.v[k]),{al:"r"})),C(fmt(r.total),{al:"r"}),C(r.memo)]});
+      ...AMT.map(([k])=>C(fmt(r.v[k]),{al:"r"})),C(fmt(r.total),{al:"r"}),C(memoText(r))]});
   }
   R.push({h:24,cells:[C("",{span:11}),C("差旅費總額",{span:3}),C(fmt0(c.total),{al:"r"}),C("",{rs:3})]});
   R.push({h:24,cells:[C("備註說明："+(t.note||""),{span:11,rs:2,v:"t"}),C("預支旅費",{span:3}),C(fmt0(c.adv),{al:"r"}),C("",{cont:true})]});
@@ -351,6 +385,8 @@ function tableHTML(m){
   }
   return h+"</table>";
 }
+function attTitle(r){ return `附件：第 ${r.n} 段自行開車路線　${md(r.d1)}　${r.from} → ${r.to}　${num(r.km)} km × ${KM_RATE} = ${fmt0(Math.round(num(r.km)*KM_RATE))} 元`; }
+function attHTML(r){ return `<div class="f f-rpt"><div style="font-size:14px;margin-bottom:10px">${esc(attTitle(r))}</div><img src="${r.img.d}" alt="" style="max-width:100%;max-height:900px;display:block;margin:0 auto;border:1px solid #999"></div>`; }
 function reportHTML(c){
   return `<div class="f f-rpt"><div class="h1">${esc(S.settings.company)}</div><div class="h1" style="margin-bottom:14px">出差旅費報告表</div>
   ${tableHTML(reportModel(c))}
@@ -364,17 +400,47 @@ function claimHTML(c){
 }
 
 /* ---------- UI ---------- */
-const tripFields={t_date:"date",t_reason:"reason",t_place:"place",t_adv:"adv",t_note:"note",t_cdate:"cdate"};
+const tripFields={t_date:"date",t_reason:"reason",t_place:"place",t_adv:"adv",t_note:"note",t_cdate:"cdate",t_sh:"sh",t_eh:"eh"};
 const setFields={s_company:"company",s_name:"name",s_title:"title",s_dept:"dept",s_cdept:"cdept",s_payee:"payee",s_bank:"bank",s_acct:"acct",s_pay:"pay"};
 function bindStatic(){
-  for(const [id,k] of Object.entries(tripFields)){ const el=$(id); el.value=S.trip[k]??""; el.addEventListener("input",()=>{S.trip[k]=el.value; touch();}); }
+  for(const [id,k] of Object.entries(tripFields)){ const el=$(id); el.value=S.trip[k]??""; const f=()=>{S.trip[k]=el.value; touch();}; el.addEventListener("input",f); el.addEventListener("change",f); }
   for(const [id,k] of Object.entries(setFields)){ const el=$(id); el.value=S.settings[k]??""; el.addEventListener("input",()=>{S.settings[k]=el.value; touch(false);}); el.addEventListener("change",()=>{S.settings[k]=el.value; touch(false);}); }
 }
 function legHTML(l,i){
   const amtIn=(k,label)=>`<label for="l${i}_${k}">${label}</label><input class="num" inputmode="numeric" id="l${i}_${k}" data-i="${i}" data-k="${k}" value="${esc(l[k])}">`;
   const amt=(k,label)=>`<div>${amtIn(k,label)}</div>`;
-  const moreFilled = MORE.some(k=>has(l[k]))||has(l.d2)||has(l.memo);
+  const car = l.mode==="car";
+  const moreKeys = car? MORE.filter(k=>k!=="fuel"&&k!=="toll") : MORE;
+  const moreFilled = moreKeys.some(k=>has(l[k]))||has(l.d2)||has(l.memo);
+  const modebar = `<div class="modebar" role="group" aria-label="第${i+1}段交通方式">
+     <button data-act="mode" data-m="pub" data-i="${i}" aria-pressed="${!car}">大眾運輸</button><button data-act="mode" data-m="car" data-i="${i}" aria-pressed="${car}">自行開車</button></div>`;
+  if(car) return `<div class="leg car" data-i="${i}">
+   ${modebar}
+   <div class="top">
+    <div class="idx">${i+1}</div>
+    <div><label for="l${i}_d1">日期</label><input type="date" id="l${i}_d1" data-i="${i}" data-k="d1" value="${esc(l.d1)}"></div>
+    <div class="wide2"><label for="l${i}_from">出發地</label><input id="l${i}_from" data-i="${i}" data-k="from" value="${esc(l.from)}" placeholder="花蓮火車站"></div>
+    <div class="wide2"><label for="l${i}_to">目的地</label><input id="l${i}_to" data-i="${i}" data-k="to" value="${esc(l.to)}" placeholder="台中麗寶樂園"></div>
+    <div><label for="l${i}_km">公里數</label><input class="num" inputmode="decimal" id="l${i}_km" data-i="${i}" data-k="km" value="${esc(l.km)}"><div class="hint" id="h${i}"></div></div>
+    ${amt("toll","eTag 通行費")}
+    ${amt("hotel","住宿費")}
+    <div class="tools"><span class="sum" id="sum${i}"></span><button class="link" data-act="up" data-i="${i}" title="上移" aria-label="第${i+1}段上移">↑</button><button class="link danger" data-act="del" data-i="${i}" title="刪除" aria-label="刪除第${i+1}段">✕</button></div>
+   </div>
+   <div class="carbar">
+    <a class="btnlink" id="gm${i}" href="${esc(gmapURL(l.from,l.to))}" target="_blank" rel="noopener">在 Google 地圖看路線與公里數 ↗</a>
+    <a class="btnlink" href="${ETAG_URL}" target="_blank" rel="noopener">查詢 eTag 通行費（遠通電收）↗</a>
+    ${l.img&&l.img.d ? `<span class="thumbwrap"><img class="thumb" src="${l.img.d}" alt="第${i+1}段地圖截圖"><button class="link danger" data-act="rmimg" data-i="${i}">移除截圖</button></span>`
+      : `<label class="btnlink up">附上地圖截圖<input type="file" accept="image/*" data-img="${i}" hidden></label>`}
+   </div>
+   <details${moreFilled?" open":""}><summary>其他費用、迄日、說明</summary>
+    <div class="more">
+     <div><label for="l${i}_d2">迄日（跨日才填）</label><input type="date" id="l${i}_d2" data-i="${i}" data-k="d2" value="${esc(l.d2)}"></div>
+     ${amt("air","飛機")}${amt("tother","交通其他")}${amt("meal","膳雜費")}${amt("ent","交際費")}${amt("other","其他")}
+     <div class="memo"><label for="l${i}_memo">工作摘要及說明</label><input id="l${i}_memo" data-i="${i}" data-k="memo" value="${esc(l.memo)}" placeholder="例：載同仁 2 人"></div>
+    </div></details>
+  </div>`;
   return `<div class="leg" data-i="${i}">
+   ${modebar}
    <div class="top">
     <div class="idx">${i+1}</div>
     <div><label for="l${i}_d1">日期</label><input type="date" id="l${i}_d1" data-i="${i}" data-k="d1" value="${esc(l.d1)}"></div>
@@ -400,6 +466,24 @@ function renderLegs(){
   $("stations").innerHTML=st.map(s=>`<option value="${esc(s)}">`).join("");
   updateLegHints();
 }
+$("legs").addEventListener("change",async e=>{
+  const el=e.target; if(el.dataset.img==null||!el.files||!el.files[0]) return;
+  const i=+el.dataset.img;
+  try{ S.legs[i].img=await shrinkImage(el.files[0]); }catch(err){ alert0("這張圖片讀不到，換一張試試"); return; }
+  renderLegs(); touch();
+});
+// 截圖縮到最長邊 1400px 的 JPEG，存得下也放得進 Word
+function shrinkImage(file){
+  return new Promise((ok,bad)=>{
+    const url=URL.createObjectURL(file), im=new Image();
+    im.onload=()=>{ const k=Math.min(1,1400/Math.max(im.width,im.height)); const w=Math.round(im.width*k), h=Math.round(im.height*k);
+      const cv=document.createElement("canvas"); cv.width=w; cv.height=h; const g=cv.getContext("2d"); g.fillStyle="#fff"; g.fillRect(0,0,w,h); g.drawImage(im,0,0,w,h);
+      URL.revokeObjectURL(url); ok({d:cv.toDataURL("image/jpeg",0.82),w,h}); };
+    im.onerror=()=>{ URL.revokeObjectURL(url); bad(); };
+    im.src=url;
+  });
+}
+function alert0(msg){ $("checks").insertAdjacentHTML("afterbegin",`<div class="msg err">${esc(msg)}</div>`); }
 $("legs").addEventListener("input",e=>{
   const el=e.target, i=+el.dataset.i, k=el.dataset.k; if(!k) return;
   S.legs[i][k]=el.value; touch();
@@ -408,11 +492,20 @@ $("legs").addEventListener("click",e=>{
   const b=e.target.closest("button[data-act]"); if(!b) return; const i=+b.dataset.i;
   if(b.dataset.act==="del"){ S.legs.splice(i,1); if(!S.legs.length) S.legs.push(blankLeg()); }
   if(b.dataset.act==="up"&&i>0){ [S.legs[i-1],S.legs[i]]=[S.legs[i],S.legs[i-1]]; }
+  if(b.dataset.act==="mode"){ S.legs[i].mode=b.dataset.m; }
+  if(b.dataset.act==="rmimg"){ S.legs[i].img=null; }
   renderLegs(); touch();
 });
 function updateLegHints(){
   S.legs.forEach((l,i)=>{
     const h=$("h"+i), inp=$(`l${i}_rail`), sm=$("sum"+i); if(!h) return;
+    if(l.mode==="car"){
+      const k=num(l.km), fu=Math.round(k*KM_RATE);
+      h.textContent = k? `油資 ${k}×${KM_RATE} = $${fmt0(fu)}` : `每公里 ${KM_RATE} 元`; h.className="hint";
+      const g=$("gm"+i); if(g) g.href=gmapURL(l.from,l.to);
+      const v=fu+num(l.toll)+["hotel","air","tother","meal","ent","other"].reduce((a,x)=>a+num(l[x]),0);
+      sm.textContent = v? "$"+fmt0(v):""; return;
+    }
     const f=lookupFare(l.from,l.to);
     inp.placeholder = f!=null? fmt0(f) : "";
     if(has(l.rail)){ h.textContent= f!=null&&num(l.rail)!==f ? `常用價 ${fmt0(f)}` : ""; h.className="hint"; }
@@ -423,8 +516,8 @@ function updateLegHints(){
     sm.textContent = v? "$"+fmt0(v):"";
   });
 }
-$("addLeg").onclick=()=>{ const p=S.legs[S.legs.length-1]; const n=blankLeg(); if(p){ n.d1=p.d1; n.from=p.to; } S.legs.push(n); renderLegs(); touch(); $(`l${S.legs.length-1}_d1`).focus(); };
-$("addBack").onclick=()=>{ const p=[...S.legs].reverse().find(l=>has(l.from)||has(l.to)); const n=blankLeg(); if(p){ n.d1=p.d2||p.d1; n.from=p.to; n.to=p.from; } S.legs.push(n); renderLegs(); touch(); $(`l${S.legs.length-1}_d1`).focus(); };
+$("addLeg").onclick=()=>{ const p=S.legs[S.legs.length-1]; const n=blankLeg(); if(p){ n.d1=p.d1; n.from=p.to; n.mode=p.mode||"pub"; } S.legs.push(n); renderLegs(); touch(); $(`l${S.legs.length-1}_d1`).focus(); };
+$("addBack").onclick=()=>{ const p=[...S.legs].reverse().find(l=>has(l.from)||has(l.to)); const n=blankLeg(); if(p){ n.d1=p.d2||p.d1; n.from=p.to; n.to=p.from; n.mode=p.mode||"pub"; if(p.mode==="car") n.km=p.km; } S.legs.push(n); renderLegs(); touch(); $(`l${S.legs.length-1}_d1`).focus(); };
 let clearArm=0;
 $("clear").onclick=()=>{
   const b=$("clear");
@@ -437,6 +530,7 @@ $("demo").onclick=()=>{
   const L=(d1,from,to,o={})=>({...blankLeg(),d1,from,to,...o});
   S.legs=[L("2025-12-11","花蓮","板橋",{taxi:"260",hotel:"3000"}),L("2025-12-12","板橋","左營"),L("2025-12-14","新左營","花蓮"),
     L("2025-12-16","花蓮","台北",{hotel:"3000",memo:"台北到台中來回→與同仁包車"}),L("2025-12-17","台北","花蓮")];
+  S.trip.sh="7"; S.trip.eh="18";
   S.demo=true; bindTripValues(); renderLegs(); touch();
 };
 function bindTripValues(){ for(const [id,k] of Object.entries(tripFields)) $(id).value=S.trip[k]??""; }
@@ -460,7 +554,10 @@ let tab="rpt";
 document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{ tab=b.dataset.tab; document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-selected",x===b)); renderPreview(); });
 function renderPreview(){
   const c=compute();
-  $("preview").innerHTML = tab==="rpt" ? `<div class="paper land">${reportHTML(c)}</div>` : `<div class="paper port">${claimHTML(c)}</div>`;
+  $("tabAtt").textContent=`地圖附件（${c.imgs.length}）`;
+  $("preview").innerHTML = tab==="rpt" ? `<div class="paper land">${reportHTML(c)}</div>`
+    : tab==="clm" ? `<div class="paper port">${claimHTML(c)}</div>`
+    : (c.imgs.length? c.imgs.map(r=>`<div class="paper port" style="margin-bottom:16px">${attHTML(r)}</div>`).join("") : `<div class="note" style="padding:20px;text-align:center">還沒有地圖截圖。自行開車的行程按「附上地圖截圖」就會出現在這裡。</div>`);
   fitPaper();
   $("sum_tr").textContent=fmt0(c.transport); $("sum_ht").textContent=fmt0(c.S.hotel);
   $("sum_ot").textContent=fmt0(c.S.meal+c.S.ent+c.S.other); $("sum_all").textContent=fmt0(c.net);
@@ -472,11 +569,17 @@ function renderPreview(){
     const n=r.n;
     if(!has(r.d1)) w.push(`第 ${n} 段沒有日期`);
     if(has(r.d2)&&has(r.d1)&&r.d2<r.d1) w.push(`第 ${n} 段迄日早於起日`);
-    if(has(r.from)&&has(r.to)&&!has(r.rail)&&r.auto==null&&r.v.taxi+r.v.air+r.v.fuel+r.v.tother===0) w.push(`第 ${n} 段（${r.from}→${r.to}）查無常用車資，也沒有填交通費`);
-    if(!r.total) w.push(`第 ${n} 段金額是 0`);
+    if(r.mode!=="car"&&has(r.from)&&has(r.to)&&!has(r.rail)&&r.auto==null&&r.v.taxi+r.v.air+r.v.fuel+r.v.tother===0) w.push(`第 ${n} 段（${r.from}→${r.to}）查無常用車資，也沒有填交通費`);
+    if(r.mode==="car"){
+      if(!num(r.km)) w.push(`第 ${n} 段自行開車還沒填公里數`);
+      if(!(r.img&&r.img.d)) w.push(`第 ${n} 段自行開車還沒附地圖截圖`);
+    } else if(!r.total) w.push(`第 ${n} 段金額是 0`);
   });
   if(c.rows.length>9) w.push(`共 ${c.rows.length} 段，超過原報表的 9 列，報告表會自動加長`);
   if(!c.rows.length) w.push("還沒有行程");
+  if((has(S.trip.sh)!==has(S.trip.eh))) w.push("出發和返回時間要一起填，報告表才算得出共幾日幾時");
+  if(has(S.trip.sh)&&has(S.trip.eh)&&c.days==="" && c.rows.length) w.push("返回時間早於出發時間，請確認");
+  if(imgSaveFail) w.push("截圖太多，這台裝置存不下：下次重新打開時需要重新附上截圖（這次下載不受影響）");
   $("checks").innerHTML = w.length? `<div class="msg warn">請確認：<ul>${w.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`
     : `<div class="msg ok">檢查通過：${c.rows.length} 段行程，差旅費總額 ${fmt0(c.total)} 元，請款單 ${c.items.length} 項，總計 ${fmt0(c.items.reduce((a,b)=>a+b.amt,0))} 元。</div>`;
   $("badge").hidden=!S.demo;
@@ -528,7 +631,7 @@ function logoXML(){
 async function buildDocx(){
   const c=compute(), RF="新細明體", CF="標楷體";
   const rpt = para(S.settings.company,{font:RF,sz:14,al:"c"})+para("出差旅費報告表",{font:RF,sz:14,al:"c",after:160})+
-    tableDocx(reportModel(c),{total:15800,font:RF,sz:9})+
+    tableDocx(reportModel(c),{total:15800,font:RF,sz:9})+`<w:p><w:pPr><w:spacing w:before="0" w:after="0"/><w:rPr><w:sz w:val="4"/></w:rPr></w:pPr></w:p>`+
     `<w:tbl><w:tblPr><w:tblW w:w="15800" w:type="dxa"/><w:tblLayout w:type="fixed"/><w:tblBorders><w:top w:val="nil"/><w:left w:val="nil"/><w:bottom w:val="nil"/><w:right w:val="nil"/><w:insideH w:val="nil"/><w:insideV w:val="nil"/></w:tblBorders></w:tblPr><w:tblGrid><w:gridCol w:w="8600"/><w:gridCol w:w="4200"/><w:gridCol w:w="3000"/></w:tblGrid><w:tr><w:trPr><w:trHeight w:val="600"/></w:trPr>`+
     `<w:tc><w:tcPr><w:tcW w:w="8600" w:type="dxa"/></w:tcPr><w:p/></w:tc><w:tc><w:tcPr><w:tcW w:w="4200" w:type="dxa"/><w:vAlign w:val="bottom"/></w:tcPr>${para("所屬單位主管：",{font:RF,sz:11})}</w:tc>`+
     `<w:tc><w:tcPr><w:tcW w:w="3000" w:type="dxa"/><w:vAlign w:val="bottom"/></w:tcPr>${para("出差人：",{font:RF,sz:11})}</w:tc></w:tr></w:tbl>`+
@@ -538,15 +641,30 @@ async function buildDocx(){
     para("日期:"+roc(c.cdate),{font:CF,sz:11,al:"r",after:80})+
     tableDocx(claimModel(c),{total:9600,font:CF,sz:12,thick:true})+
     para("現金領款簽收（姓名）：＿＿＿＿＿＿＿＿　（金額：＿＿＿＿＿）　日期：",{font:CF,sz:10,b:true,before:240});
+  let att="", rels="", media=[];
+  c.imgs.forEach((r,k)=>{
+    const id="rIdMap"+(k+1), maxW=6096000, maxH=7900000;
+    let cx=maxW, cy=Math.round(maxW*r.img.h/r.img.w); if(cy>maxH){ cy=maxH; cx=Math.round(maxH*r.img.w/r.img.h); }
+    att+=`<w:p><w:r><w:br w:type="page"/></w:r></w:p>`+para(attTitle(r),{font:RF,sz:11,after:160})+
+      `<w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${cx}" cy="${cy}"/><wp:docPr id="${k+10}" name="map${k+1}"/>
+      <a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+      <pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="${k+10}" name="map${k+1}.jpeg"/><pic:cNvPicPr/></pic:nvPicPr>
+      <pic:blipFill><a:blip r:embed="${id}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill>
+      <pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic>
+      </a:graphicData></a:graphic></wp:inline></w:drawing></w:r></w:p>`;
+    rels+=`<Relationship Id="${id}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/map${k+1}.jpeg"/>`;
+    media.push([`word/media/map${k+1}.jpeg`, r.img.d.split(",")[1]]);
+  });
   const doc=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><w:body>${rpt}${clm}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="850" w:right="1150" w:bottom="850" w:left="1150" w:header="400" w:footer="400" w:gutter="0"/></w:sectPr></w:body></w:document>`;
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><w:body>${rpt}${clm}${att}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="850" w:right="1150" w:bottom="850" w:left="1150" w:header="400" w:footer="400" w:gutter="0"/></w:sectPr></w:body></w:document>`;
   const z=new JSZip();
-  z.file("[Content_Types].xml",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="png" ContentType="image/png"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>`);
+  z.file("[Content_Types].xml",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="png" ContentType="image/png"/><Default Extension="jpeg" ContentType="image/jpeg"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>`);
   z.file("_rels/.rels",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`);
-  z.file("word/_rels/document.xml.rels",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rIdStyles" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rIdLogo" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/logo.png"/></Relationships>`);
+  z.file("word/_rels/document.xml.rels",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rIdStyles" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rIdLogo" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/logo.png"/>${rels}</Relationships>`);
   z.file("word/styles.xml",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="新細明體" w:hAnsi="新細明體" w:eastAsia="新細明體" w:cs="新細明體"/><w:sz w:val="20"/><w:lang w:val="en-US" w:eastAsia="zh-TW"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style></w:styles>`);
   z.file("word/document.xml",doc);
   z.file("word/media/logo.png",LOGO_B64,{base64:true});
+  media.forEach(([p,b])=>z.file(p,b,{base64:true}));
   return z.generateAsync({type:"uint8array",compression:"DEFLATE",mimeType:"application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
 }
 function buildPrintHTML(){
@@ -563,8 +681,8 @@ body{margin:0;background:#e5e7eb}
 .bar button{font:inherit;padding:6px 16px;border-radius:6px;border:none;cursor:pointer}
 @media print{body{background:#fff}.bar{display:none}.pg{margin:0;box-shadow:none;padding:0}}
 ${css}</style></head><body>
-<div class="bar"><button onclick="print()">列印 / 另存 PDF</button><span>第 1 頁報告表（A4 橫式），第 2 頁請款單（A4 直式）</span></div>
-<div class="pg land">${reportHTML(c)}</div><div class="pg port">${claimHTML(c)}</div></body></html>`;
+<div class="bar"><button onclick="print()">列印 / 另存 PDF</button><span>第 1 頁報告表（A4 橫式），第 2 頁請款單（A4 直式）${c.imgs.length?`，之後是地圖附件 ${c.imgs.length} 頁`:""}</span></div>
+<div class="pg land">${reportHTML(c)}</div><div class="pg port">${claimHTML(c)}</div>${c.imgs.map(r=>`<div class="pg port">${attHTML(r)}</div>`).join("")}</body></html>`;
 }
 let dl=null;
 const STANDALONE = typeof __STANDALONE__!=="undefined";
